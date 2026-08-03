@@ -13,7 +13,7 @@ const jiti = createJiti(import.meta.url, {
   alias: { "@": packageRoot },
 });
 
-const limiter = await jiti.import(join(packageRoot, "lib/web-auth-rate-limit.ts"));
+const limiter = await jiti.import("@/lib/web-auth-rate-limit");
 
 const originalEnv = {
   PI_CODING_AGENT_DIR: process.env.PI_CODING_AGENT_DIR,

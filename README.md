@@ -1,6 +1,6 @@
 # Pi Web
 
-[中文文档](./README.zh-CN.md) | [日本語](./README.ja.md)
+[中文文档](./README.zh-CN.md) | [日本語](./README.ja.md) | [Русский](./README.ru.md)
 
 Local web UI for the [pi coding agent](https://github.com/badlogic/pi-mono). Pi Web reads your local pi session files and gives you a browser workspace for session browsing, real-time chat, model configuration, skill management, and project file preview.
 
@@ -23,7 +23,7 @@ This repository is the [`FFatTiger/pi-web`](https://github.com/FFatTiger/pi-web)
 > [!IMPORTANT]
 > The npm package `@agegr/pi-web` is published by the upstream project. The `npx` and global-install commands below install upstream, not the fork-specific changes described above.
 
-**Upstream baseline:** this fork is rebased on upstream **v0.8.3**, including Pi 0.82.1, Node.js >=22.19, loopback-default bind with explicit LAN scripts, PWA support, i18n, model discovery/catalog, project trust, request/path security and upload body limits, session-title/path hardening, model runtime reload/errors, markdown images/Mermaid/LaTeX, selected-file-line mentions, ChatInput history, minimap, and related security fixes. Fork-only production features above remain (password gate, multi-project UX, mobile polish). Compare [`agegr/pi-web`](https://github.com/agegr/pi-web) before the next rebase or release.
+**Upstream baseline:** this fork is rebased on upstream **v0.8.6**, including Pi 0.83.0, Node.js >=22.19, loopback-default bind with explicit LAN scripts, PWA support, i18n, model discovery/catalog, project trust, request/path security and upload body limits, session-title/path hardening, model runtime reload/errors, markdown images/Mermaid/LaTeX, selected-file-line mentions, ChatInput history, minimap, and related security fixes. Fork-only production features above remain (password gate, multi-project UX, mobile polish). Compare [`agegr/pi-web`](https://github.com/agegr/pi-web) before the next rebase or release.
 
 ## Quick Start
 

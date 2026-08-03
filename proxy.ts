@@ -1,43 +1,31 @@
 import { NextRequest, NextResponse } from "next/server";
 import {
   isApiRequestAllowed,
-  isApiRequestOriginAllowed,
-  shouldCheckApiRequestOrigin,
+  isApiRequestHostAllowed,
 } from "@/lib/request-security";
 import { readGateConfig } from "@/lib/web-auth-config";
 import { decideGateRequest } from "@/lib/web-auth-request";
 import { WEB_AUTH_COOKIE } from "@/lib/web-auth-session";
 
 export function proxy(request: NextRequest) {
-  // Upstream host/DNS-rebinding and origin protection for API routes first.
-  try {
-    const pathname = new URL(request.url).pathname;
-    if (pathname.startsWith("/api/") && !isApiRequestAllowed(request)) {
-      return NextResponse.json(
-        { error: "Untrusted API request" },
-        { status: 403, headers: { "Cache-Control": "no-store" } },
-      );
-    }
-  } catch {
-    // Fall through to gate decision on malformed URLs.
-  }
+  const pathname = request.nextUrl.pathname;
+  const isApiRequest = pathname === "/api" || pathname.startsWith("/api/");
+  const isTrustedRequest = isApiRequest
+    ? isApiRequestAllowed(request)
+    : isApiRequestHostAllowed(request);
 
-  // Browser cross-origin protection also applies to non-API gated pages when
-  // origin headers are present (keeps gate from becoming an open side channel).
-  if (shouldCheckApiRequestOrigin(request) && !isApiRequestOriginAllowed(request)) {
-    const pathname = (() => {
-      try {
-        return new URL(request.url).pathname;
-      } catch {
-        return "";
-      }
-    })();
-    if (pathname.startsWith("/api/")) {
-      return NextResponse.json(
-        { error: "Cross-origin API requests are not allowed" },
-        { status: 403, headers: { "Cache-Control": "no-store" } },
-      );
+  // Apply upstream Host/Origin/DNS-rebinding protection before the fork gate.
+  if (!isTrustedRequest) {
+    if (!isApiRequest) {
+      return new NextResponse("Untrusted request", {
+        status: 403,
+        headers: { "Cache-Control": "no-store" },
+      });
     }
+    return NextResponse.json(
+      { error: "Untrusted API request" },
+      { status: 403, headers: { "Cache-Control": "no-store" } },
+    );
   }
 
   const gateConfig = readGateConfig();

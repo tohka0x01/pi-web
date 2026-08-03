@@ -74,9 +74,13 @@ html.dark {
 }
 
 html, body {
-  height: 100%;
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  height: var(--app-viewport-height, 100dvh);
   margin: 0;
   padding: 0;
+  overflow: hidden;
   background: var(--bg);
   color: var(--text);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -85,7 +89,8 @@ html, body {
 }
 
 body {
-  height: 100dvh;
+  display: flex;
+  flex-direction: column;
 }
 
 ::-webkit-scrollbar {
@@ -113,6 +118,9 @@ pre, code {
 
 /* react-markdown output styles */
 .markdown-body {
+  min-width: 0;
+  max-width: 100%;
+  overflow-x: hidden;
   font-size: 14px;
   line-height: 1.7;
   color: var(--text);
@@ -360,6 +368,9 @@ pre, code {
 
 .markdown-code-block {
   position: relative;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
   margin: 6px 0;
   border: 1px solid var(--border);
   border-radius: 7px;
@@ -583,6 +594,197 @@ pre, code {
 
   .mermaid-zoom-viewport {
     padding: 12px;
+  }
+}
+
+/* Chat composer: unified two-row, low-contrast shell adapted from the desktop UI. */
+.chat-input-shell {
+  position: relative;
+  min-width: 0;
+  width: 100%;
+  overflow: visible;
+  border: 1px solid color-mix(in srgb, var(--border) 82%, transparent);
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--bg-panel) 62%, var(--bg));
+  box-shadow: 0 1px 2px color-mix(in srgb, var(--text) 4%, transparent);
+  transition: border-color 150ms ease, background-color 150ms ease, box-shadow 150ms ease;
+}
+.chat-input-shell:focus-within {
+  border-color: color-mix(in srgb, var(--accent) 65%, var(--border));
+  background: color-mix(in srgb, var(--bg-panel) 48%, var(--bg));
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 10%, transparent);
+}
+.chat-input-shell.is-streaming {
+  border-color: color-mix(in srgb, var(--accent) 24%, var(--border));
+}
+.chat-input-editor-row {
+  display: flex;
+  min-width: 0;
+  align-items: stretch;
+  padding: 10px 12px 6px;
+}
+.chat-input-textarea {
+  padding: 0;
+  font-family: inherit;
+  font-size: 14px;
+  line-height: 1.6;
+}
+.chat-input-textarea::placeholder {
+  color: var(--text-dim);
+  opacity: 1;
+}
+.chat-input-bash-status {
+  padding: 0 12px 3px;
+  font-size: 11px;
+  line-height: 1.4;
+}
+.chat-input-toolbar {
+  min-height: 32px;
+  padding: 4px 5px 5px;
+  border: 0;
+  font-size: 12px;
+}
+.chat-input-toolbar-left,
+.chat-input-toolbar-actions {
+  min-width: 0;
+}
+.chat-input-toolbar button,
+.chat-input-streaming-action,
+.chat-input-send {
+  touch-action: manipulation;
+  transform: scale(1);
+  transform-origin: center;
+  transition: background-color 120ms ease, color 120ms ease, border-color 120ms ease, opacity 120ms ease, transform 120ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+.chat-input-toolbar button:active:not(:disabled),
+.chat-input-streaming-action:active:not(:disabled),
+.chat-input-send:active:not(:disabled) {
+  transform: scale(0.97);
+}
+.chat-input-toolbar button:focus-visible,
+.chat-input-streaming-action:focus-visible,
+.chat-input-send:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+.chat-input-toolbar button:disabled,
+.chat-input-streaming-action:disabled,
+.chat-input-send:disabled {
+  transform: none;
+}
+.chat-input-toolbar-thinking > button {
+  font-weight: 600;
+}
+.chat-input-toolbar-model > button,
+.chat-input-toolbar-tools > button {
+  max-width: 220px;
+}
+.chat-input-toolbar-actions {
+  gap: 2px;
+}
+.chat-input-model-dropdown button {
+  border-radius: 0 !important;
+}
+.chat-input-send {
+  display: inline-flex;
+  flex: 0 0 24px;
+  width: 24px;
+  height: 24px;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text-dim);
+  box-shadow: none;
+  cursor: not-allowed;
+}
+.chat-input-send:not(:disabled) {
+  background: var(--accent);
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 0 1px 2px color-mix(in srgb, var(--accent) 32%, transparent);
+}
+.chat-input-send:not(:disabled):hover {
+  background: var(--accent-hover);
+}
+.chat-input-streaming-actions {
+  position: absolute;
+  z-index: 130;
+  top: -16px;
+  right: 12px;
+  display: flex;
+  align-items: stretch;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  background: var(--bg-panel);
+  box-shadow: 0 4px 14px color-mix(in srgb, var(--text) 14%, transparent);
+}
+.chat-input-streaming-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 26px;
+  padding: 0;
+  border: 0;
+  border-left: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+.chat-input-streaming-action:first-child {
+  border-left: 0;
+}
+.chat-input-streaming-action:hover:not(:disabled) {
+  background: var(--bg-hover);
+  color: var(--text);
+}
+.chat-input-streaming-action:disabled {
+  color: var(--text-dim);
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+.chat-input-streaming-action-steer:not(:disabled) {
+  color: var(--accent);
+}
+@media (min-width: 768px) {
+  .chat-input-textarea {
+    min-height: 50px !important;
+  }
+}
+@media (max-width: 640px) {
+  .chat-input-editor-row {
+    padding: 9px 10px 5px;
+  }
+  .chat-input-toolbar {
+    padding: 4px 6px 5px;
+  }
+  .chat-input-streaming-actions {
+    right: 10px;
+  }
+  .chat-input-toolbar-model {
+    overflow: hidden;
+  }
+  .chat-input-toolbar-thinking > button span,
+  .chat-input-toolbar-model > button span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .chat-input-shell,
+  .chat-input-toolbar button,
+  .chat-input-streaming-action,
+  .chat-input-send {
+    transition-duration: 0.001ms !important;
+  }
+  .chat-input-toolbar button:active:not(:disabled),
+  .chat-input-streaming-action:active:not(:disabled),
+  .chat-input-send:active:not(:disabled) {
+    transform: none;
   }
 }
 
@@ -843,6 +1045,37 @@ span.linenumber {
   to   { stroke-dashoffset: 0;  opacity: 1; }
 }
 
+/* Keep the panel border as the idle separator; this element only expands the hit target. */
+.panel-resize-handle {
+  position: relative;
+  z-index: 220;
+  width: 12px;
+  margin: 0 -6px;
+  flex: 0 0 12px;
+  cursor: col-resize;
+  touch-action: none;
+  outline: none;
+}
+.panel-resize-handle::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 5px;
+  width: 2px;
+  pointer-events: none;
+  background: transparent;
+  transition: background 0.12s ease;
+}
+.panel-resize-handle:hover::after,
+.panel-resize-handle:focus-visible::after,
+.panel-resize-handle.is-resizing::after {
+  background: color-mix(in srgb, var(--text-muted) 70%, var(--border));
+}
+.right-panel-overlay-backdrop {
+  display: none;
+}
+
 /* Desktop sidebar: animate width */
 @media (min-width: 641px) {
   .sidebar-overlay-backdrop {
@@ -854,8 +1087,8 @@ span.linenumber {
     transition: width 0.2s ease, min-width 0.2s ease;
   }
   .sidebar-container.sidebar-open {
-    width: 260px;
-    min-width: 260px;
+    width: var(--sidebar-width, 260px);
+    min-width: var(--sidebar-width, 260px);
   }
   .sidebar-container.sidebar-closed {
     width: 0;
@@ -864,21 +1097,24 @@ span.linenumber {
   }
   /* keep inner content at fixed width so it doesn't reflow during animation */
   .sidebar-container > * {
-    width: 260px;
-    min-width: 260px;
+    width: var(--sidebar-width, 260px);
+    min-width: var(--sidebar-width, 260px);
+  }
+  .sidebar-container.sidebar-resizing,
+  .sidebar-container.sidebar-resizing > * {
+    transition: none !important;
   }
 }
 
-
-/* Right panel: animate width */
-@media (min-width: 641px) {
+/* Wide desktop file panel: participate in the split layout. */
+@media (min-width: 960px) {
   .right-panel-container {
     overflow: hidden;
     transition: width 0.2s ease, min-width 0.2s ease;
     flex-shrink: 0;
   }
   .right-panel-container.right-panel-open {
-    width: 42%;
+    width: var(--right-panel-width, clamp(360px, 42vw, 640px));
     min-width: 300px;
   }
   .right-panel-container.right-panel-closed {
@@ -888,8 +1124,56 @@ span.linenumber {
   }
   /* keep inner content at fixed width so it doesn't reflow during animation */
   .right-panel-container > * {
-    width: 42vw;
+    width: var(--right-panel-width, clamp(360px, 42vw, 640px));
     min-width: 300px;
+  }
+  .right-panel-container.right-panel-resizing,
+  .right-panel-container.right-panel-resizing > * {
+    transition: none !important;
+  }
+}
+
+/* Compact desktop file panel: overlay the chat instead of collapsing it. */
+@media (min-width: 641px) and (max-width: 959px) {
+  .right-panel-resize-handle {
+    display: none;
+  }
+  .right-panel-overlay-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 240;
+    display: block;
+    background: rgba(0, 0, 0, 0.24);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+  }
+  .right-panel-overlay-backdrop.is-open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .right-panel-container {
+    position: fixed;
+    top: 0;
+    right: env(safe-area-inset-right);
+    bottom: 0;
+    z-index: 250;
+    width: min(560px, calc(100vw - 48px));
+    min-width: 300px;
+    overflow: hidden;
+    box-shadow: -12px 0 32px rgba(0, 0, 0, 0.18);
+    transition: transform 0.2s ease;
+  }
+  .right-panel-container.right-panel-open {
+    transform: translateX(0);
+  }
+  .right-panel-container.right-panel-closed {
+    transform: translateX(100%);
+    pointer-events: none;
+  }
+  .right-panel-container > * {
+    width: 100%;
+    min-width: 0;
   }
 }
 
@@ -901,10 +1185,11 @@ span.linenumber {
   .sidebar-container {
     position: fixed !important;
     top: 0;
-    left: 0;
+    left: env(safe-area-inset-left);
     bottom: 0;
     width: 280px;
     max-width: 85vw;
+    height: var(--app-viewport-height, 100dvh);
     transition: transform 0.25s ease, box-shadow 0.25s ease;
   }
   .sidebar-container.sidebar-open {
@@ -912,19 +1197,20 @@ span.linenumber {
     box-shadow: 4px 0 20px rgba(0,0,0,0.15);
   }
   .sidebar-container.sidebar-closed {
-    transform: translateX(-100%);
+    transform: translateX(calc(-100% - env(safe-area-inset-left)));
     box-shadow: none;
   }
 
   .right-panel-container {
+    position: fixed;
+    inset: 0 env(safe-area-inset-right) 0 env(safe-area-inset-left);
+    height: var(--app-viewport-height, 100dvh);
+    z-index: 250;
     overflow: hidden;
-    transition: width 0.2s ease, min-width 0.2s ease;
-    flex-shrink: 0;
+    transition: transform 0.2s ease;
   }
   .right-panel-container.right-panel-open {
-    position: fixed;
-    inset: 0;
-    width: 100%;
+    width: auto;
     min-width: 0;
     z-index: 250;
   }
@@ -933,6 +1219,14 @@ span.linenumber {
     min-width: 0 !important;
     border-left: none !important;
     display: none !important;
+  }
+  .right-panel-container > * {
+    width: 100%;
+    min-width: 0;
+  }
+  .panel-resize-handle,
+  .right-panel-overlay-backdrop {
+    display: none;
   }
   .directory-picker-back,
   .directory-picker-entry,
@@ -945,6 +1239,11 @@ span.linenumber {
   .directory-picker-footer {
     flex-wrap: wrap;
     padding-bottom: max(10px, env(safe-area-inset-bottom)) !important;
+  }
+  textarea,
+  input,
+  select {
+    font-size: 16px !important;
   }
 }
 

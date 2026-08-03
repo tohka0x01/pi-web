@@ -31,7 +31,7 @@ test("SessionSidebar accepts skipInitialProjectSelection and keeps multi-project
   assert.match(sidebar, /if \(skipInitialProjectSelection\) return;/);
   assert.match(sidebar, /function PiWebTitle/);
   assert.match(sidebar, /onSelectProject/);
-  assert.match(sidebar, /liveRunningSessionIds/);
+  assert.match(sidebar, /fetch\("\/api\/agent\/running"/);
 });
 
 test("WorkspaceFilePanel forwards gitRefreshKey for upstream diff viewer", () => {

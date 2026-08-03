@@ -62,8 +62,8 @@ export function WorkspaceFilePanel(props: WorkspaceFilePanelProps) {
 
   return (
     <div
-      className={`right-panel-container${mode === "closed" ? " right-panel-closed" : " right-panel-open"}`}
-      style={{ display: "flex", flexDirection: "column", borderLeft: "1px solid var(--border)", background: "var(--bg)" }}
+      className="workspace-file-panel-content"
+      style={{ display: "flex", flex: 1, minWidth: 0, minHeight: 0, flexDirection: "column", background: "var(--bg)" }}
     >
       {mode === "explorer" ? (
         <>
@@ -132,7 +132,7 @@ export function WorkspaceFilePanel(props: WorkspaceFilePanelProps) {
         </>
       ) : (
         <>
-          <div style={{ display: "flex", alignItems: "center", flexShrink: 0, background: "var(--bg-panel)", borderBottom: "1px solid var(--border)", height: 36 }}>
+          <div style={{ display: "flex", alignItems: "center", flexShrink: 0, background: "var(--bg-panel)", borderBottom: "1px solid var(--border)", height: "calc(36px + env(safe-area-inset-top))", paddingTop: "env(safe-area-inset-top)" }}>
             <div style={{ flex: 1, overflow: "hidden" }}>
               <TabBar tabs={fileTabs} activeTabId={activeFileTabId ?? ""} onSelectTab={onSelectFileTab} onCloseTab={onCloseFileTab} />
             </div>

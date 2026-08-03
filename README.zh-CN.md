@@ -1,6 +1,6 @@
 # Pi Web
 
-[English](./README.md) | [日本語](./README.ja.md)
+[English](./README.md) | [日本語](./README.ja.md) | [Русский](./README.ru.md)
 
 [pi 编程智能体](https://github.com/badlogic/pi-mono) 的本地网页界面。它会读取本机的 pi 会话文件，在浏览器里提供会话管理、实时对话、模型配置、技能管理和项目文件预览。
 
@@ -19,7 +19,7 @@
 > [!IMPORTANT]
 > npm 包 `@agegr/pi-web` 由上游项目发布。下方的 `npx` 和全局安装命令安装的是上游版本，不包含上述 Fork 独有改动。
 
-**上游基线：** 本 Fork 基于上游 **v0.8.3**，包括 Pi 0.82.1、Node.js >=22.19、默认 loopback 监听与显式 LAN 脚本、PWA、i18n、模型发现/目录、项目可信任模式、请求/路径安全、上传限制、会话标题/路径加固、模型运行时错误处理、Markdown 图片/Mermaid/LaTeX、选中代码行 mention、输入历史和 minimap 等。上方的密码门禁、多项目体验和移动端优化仍是 Fork 独有能力。
+**上游基线：** 本 Fork 基于上游 **v0.8.6**，包括 Pi 0.83.0、Node.js >=22.19、默认 loopback 监听与显式 LAN 脚本、PWA、i18n、模型发现/目录、项目可信任模式、请求/路径安全、上传限制、会话标题/路径加固、模型运行时错误处理、Markdown 图片/Mermaid/LaTeX、选中代码行 mention、输入历史和 minimap 等。上方的密码门禁、多项目体验和移动端优化仍是 Fork 独有能力。
 
 ## 快速开始
 
@@ -51,6 +51,7 @@ pi-web --no-open                # 不自动打开浏览器
 PORT=8080 pi-web                # 也支持环境变量
 PI_WEB_HOSTNAME=0.0.0.0 pi-web  # 显式开放网络访问
 PI_WEB_ALLOWED_HOSTS=pi-web.internal pi-web  # 允许指定的代理或自定义主机名
+PI_WEB_PASSWORD='足够长的随机密码' pi-web  # 配置 Fork 的应用密码门禁
 PI_WEB_NO_OPEN=1 pi-web         # 适用于后台服务或开机自启
 ```
 
