@@ -1,5 +1,7 @@
 # Pi Web - Development Notes
 
+> 当前架构重构的任务认领、进度看板、文件所有权和协作规则见 [`docs/refactor-execution-plan.md`](docs/refactor-execution-plan.md)。架构目标见 [`docs/refactor-architecture.md`](docs/refactor-architecture.md)。
+
 ## Quick Start
 
 ```bash

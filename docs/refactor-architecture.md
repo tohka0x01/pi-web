@@ -1,8 +1,9 @@
 # pi-web 重构方案
 
-> 状态：定稿（架构）  
-> 主线：PWA 跨端  
+> 状态：定稿（架构）
+> 主线：PWA 跨端
 > 桌面原生壳：仅预留，当前不交付
+> 任务认领、进度看板、文件所有权和协作规则：[`refactor-execution-plan.md`](./refactor-execution-plan.md)
 
 ## 1. 目标
 
